@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ingreso Parte por Dependencias · TH Zona 8</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Exo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body class="app">
+<div class="bg-overlay"></div>
+
+<nav class="topbar no-print">
+  <a href="index.html" class="brand">
+    <img src="https://cdn.brandfetch.io/idBMnLXNaD/w/268/h/267/theme/light/logo.png?c=1dxbfHSJFAPEGdCLU4o5B" onerror="this.style.display='none'">
+    <span>SIGTH-Z8<small>INGRESO PARTE · DEPENDENCIAS</small></span>
+  </a>
+  <div class="spacer"></div>
+  <input type="date" id="fecha" class="form-control" style="max-width:170px">
+  <button class="btn btn-ghost" id="btnBack" onclick="verGrid()" style="display:none"><i class="bi bi-arrow-left"></i> Dependencias</button>
+</nav>
+
+<div class="container-app">
+  <!-- Vista de tarjetas -->
+  <div id="vista-grid">
+    <div class="panel glass-card">
+      <h3><i class="bi bi-grid-3x3-gap"></i> Dependencias · Estado de validación del día</h3>
+      <p style="color:var(--muted);margin:0">En <span style="color:var(--ok);font-weight:700">verde</span> las dependencias ya modificadas hoy · en <span style="color:#ff9aa8;font-weight:700">rojo</span> las que faltan.</p>
+    </div>
+    <div class="dep-grid" id="depGrid"></div>
+  </div>
+
+  <!-- Vista de edición -->
+  <div id="vista-edit" style="display:none">
+    <div class="panel glass-card">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <h3 class="mb-0"><i class="bi bi-pencil-square"></i> <span id="depTitle"></span></h3>
+        <div class="d-flex gap-2 no-print">
+          <button class="btn btn-gold" onclick="guardarDep()"><i class="bi bi-save"></i> Guardar parte</button>
+          <button class="btn btn-ghost" onclick="exportarUnidadPDF()"><i class="bi bi-file-earmark-pdf"></i> Exportar a PDF</button>
+        </div>
+      </div>
+    </div>
+    <div class="panel glass-card">
+      <div class="table-wrap">
+        <table class="tbl">
+          <thead><tr><th>Grado</th><th>Nombres</th><th style="min-width:180px">Función</th><th style="min-width:200px">Novedades / Alertas</th><th>Grupo</th><th>Estado</th></tr></thead>
+          <tbody id="editBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+<script src="assets/data.js"></script>
+<script src="assets/dependencias.js"></script>
+</body>
+</html>
