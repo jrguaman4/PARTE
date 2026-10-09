@@ -2,56 +2,216 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Talento Humano Zona 8 · Parte Policial DMG</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Exo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Talento Humano Zona 8 - Policía Nacional del Ecuador</title>
+<style>
+  :root{
+    --navy-900:#020b2b; --navy-800:#041048; --navy-700:#0a1a63; --navy-600:#102a8a;
+    --gold:#f5a800; --white:#ffffff; --glass:rgba(255,255,255,.08);
+    --border:rgba(255,255,255,.55);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"Segoe UI",Arial,Helvetica,sans-serif;color:var(--white);min-height:100vh;
+    background:radial-gradient(1200px 600px at 85% 10%,#0a2a7a55,transparent 60%),
+               linear-gradient(160deg,var(--navy-800),var(--navy-900) 70%);
+    display:flex;flex-direction:column;
+  }
+  header{
+    display:flex;align-items:center;gap:20px;padding:14px 28px;
+    background:linear-gradient(180deg,#041555,#020d3a);
+    border-bottom:1px solid rgba(255,255,255,.15);
+    box-shadow:0 4px 18px rgba(0,0,0,.45);
+  }
+  .logo{width:80px;flex:none;display:grid;place-items:center}
+  .logo img{width:80px;height:auto;display:block}
+  .titles{flex:1;text-align:center}
+  .titles h1{font-size:clamp(1.2rem,2.6vw,1.9rem);letter-spacing:.5px;text-transform:uppercase}
+  .titles h2{font-size:clamp(.85rem,1.6vw,1.1rem);color:var(--gold);text-transform:uppercase;margin-top:2px}
+  .spacer{width:80px;flex:none}
+  main{flex:1;padding:28px;max-width:1200px;width:100%;margin:0 auto}
+  .view{display:none;animation:fade .3s ease}
+  .view.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  /* Tarjetas del menú principal */
+  .section-title{text-align:center;font-size:1.15rem;margin-bottom:22px;text-transform:uppercase;letter-spacing:1px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px}
+  .card{
+    cursor:pointer;text-align:center;padding:28px 18px;border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.03) 18%,rgba(2,11,43,.6));
+    border:1px solid rgba(255,255,255,.35);
+    box-shadow:0 8px 22px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.25);
+    transition:transform .18s,box-shadow .18s,border-color .18s;
+    text-decoration:none;color:inherit;display:block;font:inherit;
+  }
+  .card:hover,.card:focus-visible{transform:translateY(-4px);border-color:var(--gold);
+    box-shadow:0 14px 28px rgba(0,0,0,.55),0 0 0 1px var(--gold);outline:none}
+  .card .icon{font-size:2.6rem;margin-bottom:10px}
+  .card h3{font-size:1rem;text-transform:uppercase;letter-spacing:.4px}
+  .card p{font-size:.8rem;opacity:.75;margin-top:6px}
+  .card .tag{display:inline-block;margin-top:10px;font-size:.65rem;color:var(--gold);border:1px solid var(--gold);border-radius:20px;padding:2px 9px}
+
+  /* Vista Link de Disposiciones */
+  .back{
+    background:none;border:1px solid var(--border);color:#fff;padding:7px 16px;border-radius:6px;
+    cursor:pointer;margin-bottom:18px;font-size:.85rem}
+  .back:hover{background:var(--glass)}
+  .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .col h3{text-align:center;font-size:clamp(.9rem,1.7vw,1.15rem);text-transform:uppercase;margin-bottom:14px}
+  .panel{
+    min-height:430px;padding:50px 26px;border-radius:6px;display:flex;flex-direction:column;gap:22px;
+    background:linear-gradient(180deg,#0b1d6e 0,#04104d 6%,#020b36 100%);
+    border:1px solid rgba(255,255,255,.35);border-top:6px solid rgba(190,205,255,.6);
+    box-shadow:0 8px 22px rgba(0,0,0,.5),inset 0 0 30px rgba(20,60,200,.15);
+  }
+  .btn{
+    display:block;text-align:center;text-decoration:none;color:#fff;cursor:pointer;
+    padding:13px 10px;font-weight:700;text-transform:uppercase;font-size:.88rem;
+    background:linear-gradient(180deg,#0a1a5e 0,#020a33 100%);
+    border:2px solid rgba(255,255,255,.85);border-radius:4px;
+    box-shadow:0 0 6px rgba(255,255,255,.35),inset 0 1px 0 rgba(255,255,255,.25);
+    transition:all .15s;font-family:inherit;width:100%;
+  }
+  .btn:hover,.btn:focus-visible{background:linear-gradient(180deg,#14308f,#04104d);box-shadow:0 0 12px var(--gold);border-color:var(--gold);color:var(--gold);outline:none}
+  .btn.pending{opacity:.85}
+
+  footer{text-align:center;font-size:.75rem;opacity:.6;padding:14px}
+  #toast{
+    position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);
+    background:#111a4d;border:1px solid var(--gold);color:#fff;padding:10px 20px;border-radius:8px;
+    opacity:0;pointer-events:none;transition:.25s;font-size:.85rem;z-index:10}
+  #toast.show{opacity:1;transform:translateX(-50%)}
+
+  @media(max-width:820px){
+    .cols{grid-template-columns:1fr}
+    .panel{min-height:0;padding:28px 20px}
+    main{padding:18px}
+    .spacer{display:none}
+  }
+</style>
 </head>
-<body class="home">
-<div class="bg-overlay"></div>
+<body>
 
-<div class="home-wrap">
-  <header class="home-header">
-    <h1 class="zone-title">TALENTO HUMANO ZONA 8</h1>
-  </header>
+<header>
+  <div class="logo" id="logo"></div>
+  <div class="titles">
+    <h1>COMANDO DE LA Zona 8</h1>
+    <h2 id="subtitle">SECCIÓN TALENTO HUMANO</h2>
+  </div>
+  <div class="spacer"></div>
+</header>
 
-  <main class="glass-card home-card">
-    <div class="row align-items-center g-4">
-      <div class="col-lg-6 text-center text-lg-start">
-        <h2 class="parte-title">PARTE POLICIAL<br><span>DMG</span></h2>
-        <p class="parte-sub">Sistema de Gestión y Validación del Parte Diario · Zona 8 (Guayas · Santa Elena · Galápagos)</p>
-      </div>
-      <div class="col-lg-6 text-center">
-        <img src="https://www.policia.gob.ec/wp-content/uploads/2026/01/WhatsApp-Image-2026-01-11-at-08.15.26.jpeg"
-             alt="Policía Nacional" class="hero-img" onerror="this.style.display='none'">
-      </div>
-    </div>
+<main>
+  <!-- MENÚ PRINCIPAL -->
+  <section class="view active" id="view-home">
+    <p class="section-title">
+Mantener actualizada toda información 
+</p>
+    <div class="cards" id="cards"></div>
+<p class="section-title"></p>
+  </section>
 
-    <div class="row g-3 justify-content-center mt-2">
-      <div class="col-md-5">
-        <a href="visualizador.html" class="menu-btn">
-          <i class="bi bi-shield-check"></i>
-          <span>Visualizador<br>Parte General</span>
-        </a>
-      </div>
-      <div class="col-md-5">
-        <a href="dependencias.html" class="menu-btn">
-          <i class="bi bi-search"></i>
-          <span>Ingreso Parte<br>dependencias</span>
-        </a>
-      </div>
-    </div>
-  </main>
+  <!-- LINK DE DISPOSICIONES -->
+  <section class="view" id="view-disposiciones">
+    <button class="back" id="btnBack">← Volver al menú</button>
+    <div class="cols" id="cols"></div>
+  </section>
+</main>
 
-  <footer class="home-footer">
-    <img src="https://cdn.brandfetch.io/idBMnLXNaD/w/268/h/267/theme/light/logo.png?c=1dxbfHSJFAPEGdCLU4o5B"
-         alt="PNE" class="footer-logo" onerror="this.style.display='none'">
-    <small>SIGTH-Z8 · Policía Nacional del Ecuador</small>
-  </footer>
-</div>
+<footer>COMANDANTE DE LA ZONA 8 : GRNL. WALTER VILLARROEL TRUJILLO· Sección de Talento Humano ·</footer>
+<div id="toast"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+/* =====================================================================
+   CONFIGURACIÓN — edite aquí los enlaces. No hace falta tocar el resto.
+   Deje url:"" mientras el enlace no esté definido.
+   ===================================================================== */
+const CONFIG = {
+  // Si tiene el archivo del escudo, coloque su ruta (ej. "img/escudo.png")
+  logo: "https://cdn.brandfetch.io/idBMnLXNaD/w/268/h/267/theme/light/logo.png?c=1dxbfHSJFAPEGdCLU4o5B",
+
+  // Tarjetas del menú principal
+  menu: [
+    { id:"disposiciones", icon:"📋", titulo:"LINK DE ACTUALIZAR",
+      desc:"Disposiciones diarias, semanales y mensuales", vista:"disposiciones" },
+    { icon:"👥", titulo:"PERSONAL VEHICULAR DISTRITOS", desc:"GRUPO 1-2-3 ", url:"https://docs.google.com/spreadsheets/d/1qIXLQIgtyGb9uqDEtQxbclHIJV8YLTvM/edit?gid=1072669286#gid=1072669286" },
+    { icon:"📝", titulo:"PERSONAL ADMINISTRATIVO", desc:"GRUPOS 11-3  (1 Y 2)", url:"https://docs.google.com/spreadsheets/d/1HWCOAK16gfyhBz6SHqttn7Za7U63H9au/edit?gid=1072669286#gid=1072669286" },
+    { icon:"📅", titulo:"CRONOGRAMA RETEN", desc:"Horarios Vehiculares, UPC, GOM, ETC.", url:"https://docs.google.com/spreadsheets/d/1OjnJ-jxCefRQho4tAD0jbnFjOe6nQQqn/edit?gid=1894522818#gid=1894522818" },
+    
+  ],
+
+  // Contenido de la vista "Link de Disposiciones"
+  disposiciones: [
+    { titulo:"ACTUALIZACIÓN  Diaria", botones:[
+        { texto:"Sres. Jefes de Distrito", url:"https://docs.google.com/spreadsheets/d/1QazAY19k83eJTL0chnZEMHHAEwKII_Y5iR8GqH6kHAA/edit?gid=663051285#gid=663051285" },
+        { texto:"Oficiales Superiores de Distrito", url:"https://docs.google.com/spreadsheets/d/1tPYz2-k5eizHI9VrdBHjmsYeCdLhDfoxbOcBLg6UB8E/edit?gid=409709782#gid=409709782" } ] },
+    { titulo:"ACTUALIZACIÓN SemanaL", botones:[
+        { texto:"Relevo Progreso - lunes y jueves", url:"https://docs.google.com/spreadsheets/d/1E7IeawFspEPEe5_UoZAi-XJR4IyhAC-bH6SuFCUeEcc/edit?gid=0#gid=0" },
+        { texto:"PCIC - viernes", url:"https://docs.google.com/spreadsheets/d/1VYY2px4sY5qoe_y0cmdvROps1NhW8uYZQxpn4J2ZEgk/edit?gid=1355990734#gid=1355990734" },
+         ] },
+    { titulo:"ACTUALIZACIÓN Mensual", botones:[
+        { texto:"Matriz Faltas Leves - 22 del mes", url:"https://docs.google.com/spreadsheets/d/17IUQz0qTJ74B-OIt3ds1VYvCkDZobdrEDmFREKCdkSs/edit?gid=392802588#gid=392802588" },
+         ] }
+  ]
+};
+
+/* ===================== Lógica ===================== */
+const $ = s => document.querySelector(s);
+const toast = msg => { const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toast.t); toast.t=setTimeout(()=>t.classList.remove("show"),2400); };
+
+function openLink(url, nombre){
+  if(!url){ toast("Enlace de «"+nombre+"» aún no configurado"); return; }
+  window.open(url,"_blank","noopener");
+}
+
+// Logo
+(function(){
+  const box=$("#logo");
+  if(CONFIG.logo){ box.innerHTML='<img src="'+CONFIG.logo+'" alt="Escudo Policía Nacional del Ecuador">'; return; }
+  box.innerHTML=`<svg viewBox="0 0 64 64" width="64" height="64" aria-label="Escudo">
+    <path d="M32 6 8 14v16c0 14 10 24 24 28 14-4 24-14 24-28V14z" fill="#0a1a63" stroke="#f5a800" stroke-width="3"/>
+    <path d="M32 18l4 9h10l-8 6 3 10-9-6-9 6 3-10-8-6h10z" fill="#f5a800"/></svg>`;
+})();
+
+// Tarjetas
+const cards=$("#cards");
+CONFIG.menu.forEach(it=>{
+  const el=document.createElement("button");
+  el.className="card";
+  el.innerHTML=`<div class="icon">${it.icon}</div><h3>${it.titulo}</h3><p>${it.desc||""}</p>`+
+               (!it.vista && !it.url ? '<span class="tag">Por configurar</span>' : '');
+  el.onclick=()=> it.vista ? go(it.vista) : openLink(it.url,it.titulo);
+  cards.appendChild(el);
+});
+
+// Columnas de disposiciones
+const cols=$("#cols");
+CONFIG.disposiciones.forEach(c=>{
+  const col=document.createElement("div"); col.className="col";
+  col.innerHTML=`<h3>${c.titulo}</h3>`;
+  const panel=document.createElement("div"); panel.className="panel";
+  c.botones.forEach(b=>{
+    const a=document.createElement("button");
+    a.className="btn"+(b.url?"":" pending"); a.textContent=b.texto;
+    a.onclick=()=>openLink(b.url,b.texto);
+    panel.appendChild(a);
+  });
+  col.appendChild(panel); cols.appendChild(col);
+});
+
+// Navegación por hash
+const subtitles={home:"Menú principal",disposiciones:"Link de Disposiciones"};
+function go(v){ location.hash = v==="home" ? "" : v; }
+function render(){
+  const v=location.hash.replace("#","")||"home";
+  const name = subtitles[v] ? v : "home";
+  document.querySelectorAll(".view").forEach(s=>s.classList.remove("active"));
+  $("#view-"+name).classList.add("active");
+  $("#subtitle").textContent=subtitles[name];
+}
+$("#btnBack").onclick=()=>go("home");
+window.addEventListener("hashchange",render); render();
+</script>
 </body>
 </html>
